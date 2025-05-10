@@ -1,0 +1,26 @@
+{
+  "node_modules/@lazarv/react-server/client/ErrorBoundary.jsx": {
+    "file": "server/client/@lazarv/react-server/client/ErrorBoundary.mjs",
+    "name": "server/client/@lazarv/react-server/client/ErrorBoundary",
+    "src": "node_modules/@lazarv/react-server/client/ErrorBoundary.jsx",
+    "isEntry": true,
+    "imports": [
+      "node_modules/@lazarv/react-server/client/context.mjs"
+    ]
+  },
+  "node_modules/@lazarv/react-server/client/context.mjs": {
+    "file": "server/client/@lazarv/react-server/client/context.mjs",
+    "name": "server/client/@lazarv/react-server/client/context",
+    "src": "node_modules/@lazarv/react-server/client/context.mjs",
+    "isEntry": true
+  },
+  "src/app/page.tsx": {
+    "file": "server/client/src/app/page.mjs",
+    "name": "server/client/src/app/page",
+    "src": "src/app/page.tsx",
+    "isEntry": true,
+    "css": [
+      "assets/page-BDOzB1go.css"
+    ]
+  }
+}

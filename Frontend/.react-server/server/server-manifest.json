@@ -1,0 +1,74 @@
+{
+  "_entrypoint.C-deznTq.mjs": {
+    "file": "server/entrypoint.C-deznTq.mjs",
+    "name": "entrypoint",
+    "imports": [
+      "_react-server.C71Mx6-w.mjs"
+    ],
+    "dynamicImports": [
+      "virtual:__react_server_router_page__/::/Users/washiokamanato/Documents/Dev/generatePlaylist_with_chatgpt/Frontend/src/app/page.tsx::.jsx",
+      "_page.CcQx_u-0.mjs"
+    ]
+  },
+  "_page.!~{002}~.mjs": {
+    "file": "assets/src/app/page-BDOzB1go.css",
+    "src": "_page.!~{002}~.mjs"
+  },
+  "_page.CcQx_u-0.mjs": {
+    "file": "server/src/app/page.CcQx_u-0.mjs",
+    "name": "src/app/page",
+    "isDynamicEntry": true,
+    "css": [
+      "assets/src/app/page-BDOzB1go.css"
+    ]
+  },
+  "_react-server.C71Mx6-w.mjs": {
+    "file": "server/@lazarv/react-server.C71Mx6-w.mjs",
+    "name": "@lazarv/react-server"
+  },
+  "node_modules/@lazarv/react-server/lib/plugins/file-router/entrypoint.jsx": {
+    "file": "server/index.mjs",
+    "name": "server/index",
+    "src": "node_modules/@lazarv/react-server/lib/plugins/file-router/entrypoint.jsx",
+    "isEntry": true,
+    "imports": [
+      "_entrypoint.C-deznTq.mjs",
+      "_react-server.C71Mx6-w.mjs"
+    ]
+  },
+  "node_modules/@lazarv/react-server/server/GlobalError.jsx": {
+    "file": "server/error.mjs",
+    "name": "server/error",
+    "src": "node_modules/@lazarv/react-server/server/GlobalError.jsx",
+    "isEntry": true,
+    "imports": [
+      "_react-server.C71Mx6-w.mjs"
+    ]
+  },
+  "node_modules/@lazarv/react-server/server/render-rsc.jsx": {
+    "file": "server/render.mjs",
+    "name": "server/render",
+    "src": "node_modules/@lazarv/react-server/server/render-rsc.jsx",
+    "isEntry": true,
+    "imports": [
+      "_react-server.C71Mx6-w.mjs"
+    ]
+  },
+  "virtual:__react_server_router_page__/::/Users/washiokamanato/Documents/Dev/generatePlaylist_with_chatgpt/Frontend/src/app/page.tsx::.jsx": {
+    "file": "server/page.tsx__.CRY0pXgV.mjs",
+    "name": "page.tsx__",
+    "src": "virtual:__react_server_router_page__/::/Users/washiokamanato/Documents/Dev/generatePlaylist_with_chatgpt/Frontend/src/app/page.tsx::.jsx",
+    "isDynamicEntry": true,
+    "imports": [
+      "_react-server.C71Mx6-w.mjs",
+      "_entrypoint.C-deznTq.mjs",
+      "_page.CcQx_u-0.mjs"
+    ]
+  },
+  "virtual:config/prebuilt": {
+    "file": "server/__react_server_config__/prebuilt.mjs",
+    "name": "server/__react_server_config__/prebuilt",
+    "src": "virtual:config/prebuilt",
+    "isEntry": true
+  }
+}

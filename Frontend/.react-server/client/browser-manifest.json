@@ -1,0 +1,83 @@
+{
+  "_client.WyImRt2Q.mjs": {
+    "file": "client/react-dom/client.WyImRt2Q.mjs",
+    "name": "react-dom/client",
+    "imports": [
+      "_react.DaX-6B7k.mjs",
+      "_react-dom.D9W7S9Xl.mjs"
+    ]
+  },
+  "_client.browser.BgEtflDr.mjs": {
+    "file": "client/react-server-dom-webpack/client.browser.BgEtflDr.mjs",
+    "name": "react-server-dom-webpack/client.browser",
+    "imports": [
+      "_react.DaX-6B7k.mjs",
+      "_react-dom.D9W7S9Xl.mjs"
+    ]
+  },
+  "_jsx-runtime.BfNg0mxH.mjs": {
+    "file": "client/react/jsx-runtime.BfNg0mxH.mjs",
+    "name": "react/jsx-runtime",
+    "imports": [
+      "_react.DaX-6B7k.mjs"
+    ]
+  },
+  "_react-dom.D9W7S9Xl.mjs": {
+    "file": "client/react-dom.D9W7S9Xl.mjs",
+    "name": "react-dom",
+    "imports": [
+      "_react.DaX-6B7k.mjs"
+    ]
+  },
+  "_react.DaX-6B7k.mjs": {
+    "file": "client/react.DaX-6B7k.mjs",
+    "name": "react"
+  },
+  "node_modules/@lazarv/react-server/client/ErrorBoundary.jsx": {
+    "file": "client/@lazarv/react-server/client/ErrorBoundary.DKPKglJU.mjs",
+    "name": "client/@lazarv/react-server/client/ErrorBoundary",
+    "src": "node_modules/@lazarv/react-server/client/ErrorBoundary.jsx",
+    "isEntry": true,
+    "imports": [
+      "_jsx-runtime.BfNg0mxH.mjs",
+      "_react.DaX-6B7k.mjs",
+      "node_modules/@lazarv/react-server/client/context.mjs"
+    ]
+  },
+  "node_modules/@lazarv/react-server/client/context.mjs": {
+    "file": "client/@lazarv/react-server/client/context.1OmqlEwD.mjs",
+    "name": "client/@lazarv/react-server/client/context",
+    "src": "node_modules/@lazarv/react-server/client/context.mjs",
+    "isEntry": true,
+    "imports": [
+      "_react.DaX-6B7k.mjs"
+    ]
+  },
+  "node_modules/@lazarv/react-server/client/entry.client.jsx": {
+    "file": "client/index.BwrDR2N0.mjs",
+    "name": "client/index",
+    "src": "node_modules/@lazarv/react-server/client/entry.client.jsx",
+    "isEntry": true,
+    "imports": [
+      "_jsx-runtime.BfNg0mxH.mjs",
+      "_react.DaX-6B7k.mjs",
+      "_client.WyImRt2Q.mjs",
+      "_client.browser.BgEtflDr.mjs",
+      "node_modules/@lazarv/react-server/client/context.mjs",
+      "_react-dom.D9W7S9Xl.mjs"
+    ]
+  },
+  "src/app/page.tsx": {
+    "file": "client/src/app/page.DsVd-VWV.mjs",
+    "name": "client/src/app/page",
+    "src": "src/app/page.tsx",
+    "isEntry": true,
+    "imports": [
+      "_jsx-runtime.BfNg0mxH.mjs",
+      "_react.DaX-6B7k.mjs"
+    ],
+    "css": [
+      "assets/page-BDOzB1go.css"
+    ]
+  }
+}
