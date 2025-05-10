@@ -1,0 +1,22 @@
+{
+  "name": "frontend",
+  "private": true,
+  "version": "0.0.0",
+  "type": "module",
+  "scripts": {
+    "dev": "react-server",
+    "build": "react-server build",
+    "start": "react-server start",
+    "preview": "vite preview"
+  },
+  "devDependencies": {
+    "autoprefixer": "^10.4.21",
+    "postcss": "^8.5.3",
+    "tailwindcss": "^3.4.13",
+    "typescript": "~5.8.3",
+    "vite": "^6.3.5"
+  },
+  "dependencies": {
+    "@lazarv/react-server": "^0.0.0-experimental-44033c0-20250123-2c156f57"
+  }
+}

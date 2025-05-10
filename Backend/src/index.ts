@@ -1,0 +1,115 @@
+import { Hono } from 'hono'
+import { cors } from 'hono/cors'
+import { logger } from 'hono/logger'
+import { env } from 'hono/adapter'
+import { OpenAI } from 'openai';
+
+import { createSetlist } from './util/spotify'
+
+const app = new Hono()
+
+app.use('*', cors())
+
+app.use('*', logger())
+
+// レスポンスの型定義
+interface SongResponse {
+  songs: {
+    artist_name: string;
+    song_name: string;
+  }[];
+}
+
+app.get('/', (c) => {
+  const { OPENAI_API_KEY } = env<{ OPENAI_API_KEY: string }>(c)
+  return c.text(`Hello Hono! ${OPENAI_API_KEY}`)
+})
+
+app.post('/submit', async (c) => {
+  const { OPENAI_API_KEY } = env<{ OPENAI_API_KEY: string }>(c)
+  const body = await c.req.json()
+  const prompt = body.prompt
+  // APIキーの確認
+  if (!OPENAI_API_KEY) {
+    console.error('環境変数にOPENAI_API_KEYが設定されていません');
+    return;
+  }
+
+  const client = new OpenAI({
+    apiKey: OPENAI_API_KEY,
+  });
+
+  try {
+    const response = await client.chat.completions.create({
+      model: "o4-mini-2025-04-16",
+      messages: [
+        {
+          role: "system",
+          content: "あなたはユーザ入力から適切な音楽をサジェストするプロンプトジェネレータです．あなたの最新知識を駆使して，ユーザの入力に応じた適切な音楽をサジェストしてください．出力はアーティスト名，曲名をJSON形式で出力してください．",
+        },
+        {
+          role: "user",
+          content: prompt,
+        },
+      ],
+      response_format: {
+        type: "json_schema",
+        json_schema: {
+          name: "Spotify_Songs",
+          strict: true,
+          schema: {
+            type: "object",
+            properties: {
+              songs: {
+                type: "array",
+                items: {
+                  type: "object",
+                  properties: {
+                    artist_name: { type: "string" },
+                    song_name: { type: "string" },
+                  },
+                  additionalProperties: false,
+                  required: ["artist_name", "song_name"],
+                },
+              },
+            },
+            required: ["songs"],
+            additionalProperties: false,
+          },
+        },
+      },
+    });
+
+    // レスポンスを取得
+    const songData = JSON.parse(response.choices[0].message.content || '{}') as SongResponse;
+
+    const queries: string[] = songData.songs.map((song) => {
+      const query = `${song.artist_name} - ${song.song_name}`
+      return query
+    })
+
+    const { SPOTIFY_USERNAME, SPOTIFY_CLIENT_ID, SPOTIFY_CLIENT_SECRET, SPOTIFY_REFRESH_TOKEN } = env<{ SPOTIFY_USERNAME: string, SPOTIFY_CLIENT_ID: string, SPOTIFY_CLIENT_SECRET: string, SPOTIFY_REFRESH_TOKEN: string }>(c)
+
+    const spotifyEnv = {
+      SPOTIFY_USERNAME,
+      SPOTIFY_CLIENT_ID,
+      SPOTIFY_CLIENT_SECRET,
+      SPOTIFY_REFRESH_TOKEN
+    }
+
+    const setlist_id = await createSetlist(queries, spotifyEnv)
+
+    console.log(JSON.stringify(queries, null, 2));
+
+    console.log(JSON.stringify(setlist_id, null, 2));
+
+
+    return c.json(setlist_id)
+
+  } catch (error) {
+    console.error('エラーが発生しました:', error);
+  }
+
+})
+
+export default app
