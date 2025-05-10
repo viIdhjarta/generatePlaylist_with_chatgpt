@@ -21,8 +21,7 @@ interface SongResponse {
 }
 
 app.get('/', (c) => {
-  const { OPENAI_API_KEY } = env<{ OPENAI_API_KEY: string }>(c)
-  return c.text(`Hello Hono! ${OPENAI_API_KEY}`)
+  return c.text(`Hello Hono!`)
 })
 
 app.post('/submit', async (c) => {

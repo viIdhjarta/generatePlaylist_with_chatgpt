@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import { API_URL } from "../config";
 import "./global.css";
 
 // プレイリスト結果の型定義
@@ -41,7 +42,7 @@ export default function Home() {
 
     try {
       // Backendの/submitエンドポイントを呼び出す
-      const response = await fetch('http://localhost:8787/submit', {
+      const response = await fetch(`${API_URL}/submit`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
