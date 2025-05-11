@@ -9,7 +9,7 @@ import {
 } from '@clerk/nextjs'
 import { Geist, Geist_Mono } from 'next/font/google'
 import './globals.css'
-import FavoritesToggle from './components/FavoritesToggle'
+import SpotifyProfile from './components/spotifyProfile'
 const geistSans = Geist({
   variable: '--font-geist-sans',
   subsets: ['latin'],
@@ -34,29 +34,15 @@ export default function RootLayout({
     <ClerkProvider>
       <html lang="en">
         <body className={`${geistSans.variable} ${geistMono.variable} antialiased`}>
-          <header className="bg-black flex justify-between items-center p-4 gap-4 h-16">
-            <div className="flex items-center gap-2">
-              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#00f900" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="lucide lucide-music-icon lucide-music">
-                <path d="M9 18V5l12-2v13" />
-                <circle cx="6" cy="18" r="3" />
-                <circle cx="18" cy="16" r="3" />
-              </svg>
-              <h1 className="text-white text-xl font-bold">Spotify AI</h1>
-            </div>
-            
-            <div className="flex items-center gap-4">
-              <SignedIn>
-                <FavoritesToggle />
-              </SignedIn>
-              <SignedOut>
-                <div className="bg-green-500 hover:bg-green-600 p-2 rounded-md text-white text-sm font-semibold">
-                  <SignInButton />
-                </div>
-              </SignedOut>
-              <SignedIn>
-                <UserButton />
-              </SignedIn>
-            </div>
+          <header className="bg-black flex justify-end items-center p-4 gap-4 h-16">
+            <SignedOut>
+              <div className="bg-green-500 hover:bg-green-600 p-2 rounded-md text-white text-sm font-semibold">
+                <SignInButton />
+              </div>
+            </SignedOut>
+            <SignedIn>
+              <UserButton />
+            </SignedIn>
           </header>
           {children}
         </body>

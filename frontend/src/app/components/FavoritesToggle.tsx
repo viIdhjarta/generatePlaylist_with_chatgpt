@@ -1,6 +1,8 @@
-"use client";
+'use client'
 
-import { useEffect, useState } from "react";
+import { SignedIn } from "@clerk/nextjs"
+import { Switch } from "@/components/ui/switch"
+import { useState, useEffect } from "react"
 
 type FavoritesContextType = {
   useFavorites: boolean;
@@ -17,8 +19,8 @@ let globalFavoritesState: FavoritesContextType = {
 export function getUseFavoritesState(): boolean {
   return globalFavoritesState.useFavorites;
 }
-
 export default function FavoritesToggle() {
+
   const [useFavorites, setUseFavorites] = useState(false);
 
   // グローバル状態を更新
@@ -29,19 +31,13 @@ export default function FavoritesToggle() {
     };
   }, [useFavorites]);
 
+
   return (
-    <div className="flex items-center gap-2">
-      <span className="text-gray-300 text-sm">お気に入り曲を利用</span>
-      <label className="inline-flex items-center cursor-pointer">
-        <input 
-          type="checkbox" 
-          value="" 
-          className="sr-only peer"
-          checked={useFavorites}
-          onChange={() => setUseFavorites(!useFavorites)}
-        />
-        <div className="relative w-11 h-6 bg-gray-700 rounded-full peer-focus:outline-none peer-focus:ring-2 peer-focus:ring-green-400 peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:start-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-green-500"></div>
-      </label>
-    </div>
-  );
+    <SignedIn>
+      <div className="flex justify-end items-center gap-2 mb-4">
+        <Switch checked={useFavorites} onCheckedChange={setUseFavorites} />
+        <span className="text-gray-300 text-sm">いいねした曲を読み込む</span>
+      </div>
+    </SignedIn>
+  )
 }

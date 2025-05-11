@@ -6,7 +6,7 @@ import "./globals.css";
 import SpotifyProfile from "./components/spotifyProfile";
 import { useUser } from "@clerk/nextjs";
 import { getUseFavoritesState } from "./components/FavoritesToggle";
-
+import FavoritesToggle from "./components/FavoritesToggle";
 // プレイリスト結果の型定義
 interface Playlist {
   prompt: string;
@@ -24,6 +24,7 @@ export default function Home() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [playlist, setPlaylist] = useState<Playlist | null>(null);
+  const [useFavorites, setUseFavorites] = useState(false);
 
   const { isSignedIn, user, isLoaded } = useUser();
 
@@ -107,6 +108,9 @@ export default function Home() {
 
       <div className="bg-gray-900 rounded-xl shadow-lg p-6 w-full max-w-xl border border-gray-800">
         <form onSubmit={handleSubmit}>
+          <div className="mb-4">
+            <FavoritesToggle />
+          </div>
           <div className="relative mb-4">
             <input
               type="text"
@@ -116,7 +120,7 @@ export default function Home() {
               placeholder="例: 雨の日に聴きたい落ち着く曲"
               disabled={loading}
             />
-            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" className="lucide lucide-search-icon lucide-search absolute right-4 top-1/2 transform -translate-y-1/2 text-gray-400"><path d="m21 21-4.34-4.34" /><circle cx="11" cy="11" r="8" /></svg>
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="lucide lucide-search-icon lucide-search absolute right-4 top-1/2 transform -translate-y-1/2 text-gray-400"><path d="m21 21-4.34-4.34" /><circle cx="11" cy="11" r="8" /></svg>
           </div>
           <button
             type="submit"
@@ -129,7 +133,7 @@ export default function Home() {
                 <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
               </svg>
             ) : (
-              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" className="lucide lucide-sparkles-icon lucide-sparkles"><path d="M9.937 15.5A2 2 0 0 0 8.5 14.063l-6.135-1.582a.5.5 0 0 1 0-.962L8.5 9.936A2 2 0 0 0 9.937 8.5l1.582-6.135a.5.5 0 0 1 .963 0L14.063 8.5A2 2 0 0 0 15.5 9.937l6.135 1.581a.5.5 0 0 1 0 .964L15.5 14.063a2 2 0 0 0-1.437 1.437l-1.582 6.135a.5.5 0 0 1-.963 0z" /><path d="M20 3v4" /><path d="M22 5h-4" /><path d="M4 17v2" /><path d="M5 18H3" /></svg>
+              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="lucide lucide-sparkles-icon lucide-sparkles"><path d="M9.937 15.5A2 2 0 0 0 8.5 14.063l-6.135-1.582a.5.5 0 0 1 0-.962L8.5 9.936A2 2 0 0 0 9.937 8.5l1.582-6.135a.5.5 0 0 1 .963 0L14.063 8.5A2 2 0 0 0 15.5 9.937l6.135 1.581a.5.5 0 0 1 0 .964L15.5 14.063a2 2 0 0 0-1.437 1.437l-1.582 6.135a.5.5 0 0 1-.963 0z" /><path d="M20 3v4" /><path d="M22 5h-4" /><path d="M4 17v2" /><path d="M5 18H3" /></svg>
             )}
             {loading ? "生成中..." : "プレイリストを作成"}
           </button>
@@ -196,7 +200,7 @@ export default function Home() {
               onClick={openSpotify}
               className="w-full bg-green-500 text-black font-bold py-4 rounded-full hover:bg-green-600 transition flex items-center justify-center gap-2"
             >
-              <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" className="lucide lucide-spotify"><circle cx="12" cy="12" r="10" /><path d="M8 11.8A5.4 5.4 0 0 1 17.8 9" /><path d="M7 15a6.5 6.5 0 0 1 11.4-4.3" /><path d="M8.5 18a8 8 0 0 1 13.5-5.3" /></svg>
+              <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="lucide lucide-spotify"><circle cx="12" cy="12" r="10" /><path d="M8 11.8A5.4 5.4 0 0 1 17.8 9" /><path d="M7 15a6.5 6.5 0 0 1 11.4-4.3" /><path d="M8.5 18a8 8 0 0 1 13.5-5.3" /></svg>
               Spotifyで開く
             </button>
           )}
@@ -209,7 +213,7 @@ export default function Home() {
     <div className="min-h-screen bg-black flex flex-col items-center justify-between">
       <div className="flex flex-col items-center mt-12 w-full px-4">
         <div className="flex items-center gap-2 mb-6">
-          <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#00f900" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" className="lucide lucide-music-icon lucide-music"><path d="M9 18V5l12-2v13" /><circle cx="6" cy="18" r="3" /><circle cx="18" cy="16" r="3" /></svg>
+          <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#00f900" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="lucide lucide-music-icon lucide-music"><path d="M9 18V5l12-2v13" /><circle cx="6" cy="18" r="3" /><circle cx="18" cy="16" r="3" /></svg>
           <h1 className="text-white text-3xl font-bold">Spotify AI</h1>
         </div>
 
