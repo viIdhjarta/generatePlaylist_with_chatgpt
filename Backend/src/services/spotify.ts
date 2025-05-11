@@ -119,7 +119,6 @@ export async function createPlaylist(
     );
     
     const playlist = await playlistResponse.json();
-    console.log(playlist);
     
     // 曲のIDを取得
     const trackIdPromises = trackQueries.map(query => searchSong(query));

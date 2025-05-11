@@ -16,7 +16,7 @@ const SpotifyProfile = () => {
         const sessionToken = await session?.getToken();
         console.log(sessionToken);
 
-        const response = await fetch(`${API_URL}/api/spotify`, {
+        const response = await fetch(`${API_URL}/profile`, {
           headers: {
             "Authorization": `Bearer ${sessionToken}`,
             "Content-Type": "application/json"

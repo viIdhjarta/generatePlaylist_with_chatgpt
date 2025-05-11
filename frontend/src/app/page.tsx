@@ -5,6 +5,7 @@ import { API_URL } from "./config";
 import "./globals.css";
 import SpotifyProfile from "./components/spotifyProfile";
 import { useUser } from "@clerk/nextjs";
+import { getUseFavoritesState } from "./components/FavoritesToggle";
 
 // プレイリスト結果の型定義
 interface Playlist {
@@ -45,12 +46,14 @@ export default function Home() {
     setError(null);
 
     try {
+      const useFavorites = getUseFavoritesState();
+
       const response = await fetch(`${API_URL}/playlist/generate?userId=${clerkUserId}`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({ prompt }),
+        body: JSON.stringify({ prompt, useFavorites}),
       });
 
       const setlist = await response.json();
