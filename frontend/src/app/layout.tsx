@@ -34,9 +34,9 @@ export default function RootLayout({
     <ClerkProvider>
       <html lang="en">
         <body className={`${geistSans.variable} ${geistMono.variable} antialiased`}>
-          <header className="bg-white flex justify-end items-center p-4 gap-4 h-16">
+          <header className="bg-black flex justify-end items-center p-4 gap-4 h-16">
             <SignedOut>
-              <div className="ml-4 bg-green-500 hover:bg-green-600 w-fit p-2 rounded-md text-white text-sm font-semibold">
+              <div className="bg-green-500 hover:bg-green-600 p-2 rounded-md text-white text-sm font-semibold">
                 <SignInButton />
               </div>
             </SignedOut>
