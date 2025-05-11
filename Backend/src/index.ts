@@ -4,7 +4,7 @@ import { logger } from 'hono/logger'
 import { env } from 'hono/adapter'
 import { OpenAI } from 'openai';
 
-import { createSetlist } from './util/spotify'
+import { createSetlist, spGetSavedTracks } from './util/spotify'
 
 const app = new Hono()
 // レスポンスの型定義
@@ -27,13 +27,13 @@ app.get('/', (c) => {
 
 // Spotify APIエンドポイント
 app.get('/api/spotify', async (c) => {
-  const userId = "user_2wvok3306il4XKyV56Xr82yNkc3"
+  const clerkUserId = "user_2wwAauIbll6Y61D4HOkgmsAlWR0"
   const { CLERK_API_KEY } = env<{ CLERK_API_KEY: string }>(c)
 
   try {
     // Clerk APIを呼び出してSpotifyのアクセストークンを取得
     const clerkResponse = await fetch(
-      `https://api.clerk.dev/v1/users/${userId}/oauth_access_tokens/spotify`,
+      `https://api.clerk.dev/v1/users/${clerkUserId}/oauth_access_tokens/spotify`,
       {
         headers: {
           Authorization: `Bearer ${CLERK_API_KEY}`,
@@ -57,6 +57,7 @@ app.get('/api/spotify', async (c) => {
       }
     });
 
+
     if (!spotifyResponse.ok) {
       const error = await spotifyResponse.json();
       console.error('Spotify APIエラー:', error);
@@ -64,6 +65,19 @@ app.get('/api/spotify', async (c) => {
     }
 
     const spotifyData = await spotifyResponse.json();
+
+    const { SPOTIFY_USERNAME, SPOTIFY_CLIENT_ID, SPOTIFY_CLIENT_SECRET, SPOTIFY_REFRESH_TOKEN } = env<{ SPOTIFY_USERNAME: string, SPOTIFY_CLIENT_ID: string, SPOTIFY_CLIENT_SECRET: string, SPOTIFY_REFRESH_TOKEN: string }>(c)
+
+    const Env = {
+      SPOTIFY_USERNAME,
+      SPOTIFY_CLIENT_ID,
+      SPOTIFY_CLIENT_SECRET,
+      SPOTIFY_REFRESH_TOKEN,
+      CLERK_API_KEY
+    }
+
+    const savedTrackName = await spGetSavedTracks(Env, clerkUserId);
+    console.log("保存した曲", savedTrackName);
 
     return c.json({ user: spotifyData });
   } catch (error) {
@@ -76,11 +90,26 @@ app.post('/submit', async (c) => {
   const { OPENAI_API_KEY } = env<{ OPENAI_API_KEY: string }>(c)
   const body = await c.req.json()
   const prompt = body.prompt
+  const clerkUserId = c.req.query('clerkUserId')
+
+  const { SPOTIFY_USERNAME, SPOTIFY_CLIENT_ID, SPOTIFY_CLIENT_SECRET, SPOTIFY_REFRESH_TOKEN, CLERK_API_KEY } = env<{ SPOTIFY_USERNAME: string, SPOTIFY_CLIENT_ID: string, SPOTIFY_CLIENT_SECRET: string, SPOTIFY_REFRESH_TOKEN: string, CLERK_API_KEY: string }>(c)
+
+    const Env = {
+      SPOTIFY_USERNAME,
+      SPOTIFY_CLIENT_ID,
+      SPOTIFY_CLIENT_SECRET,
+      SPOTIFY_REFRESH_TOKEN,
+      CLERK_API_KEY
+    }
   // APIキーの確認
   if (!OPENAI_API_KEY) {
     console.error('環境変数にOPENAI_API_KEYが設定されていません');
     return;
   }
+
+
+
+  const savedTrackName = await spGetSavedTracks(Env, clerkUserId);
 
   const client = new OpenAI({
     apiKey: OPENAI_API_KEY,
@@ -92,11 +121,11 @@ app.post('/submit', async (c) => {
       messages: [
         {
           role: "system",
-          content: "あなたはユーザ入力から適切な音楽をサジェストするプロンプトジェネレータです．あなたの最新知識を駆使して，ユーザの入力に応じた適切な音楽をサジェストしてください．出力はアーティスト名，曲名をJSON形式で出力してください．また，プロンプトから適切なプレイリスト名を生成すること．",
+          content: "あなたはユーザ入力から適切な音楽をサジェストするプロンプトジェネレータです．あなたの最新知識を駆使して，ユーザの入力に応じた適切な音楽をサジェストしてください．出力はアーティスト名，曲名をJSON形式で出力してください．また，プロンプトから適切なプレイリスト名を生成すること．また，ユーザーのお気に入り曲がリファレンスとして渡された場合，その曲を参考にサジェストすること．",
         },
         {
           role: "user",
-          content: prompt,
+          content: prompt + "私のお気に入り曲は" + savedTrackName + "です．",
         },
       ],
       response_format: {
@@ -137,16 +166,9 @@ app.post('/submit', async (c) => {
     })
     const playlist_name = songData.playlist_name
 
-    const { SPOTIFY_USERNAME, SPOTIFY_CLIENT_ID, SPOTIFY_CLIENT_SECRET, SPOTIFY_REFRESH_TOKEN } = env<{ SPOTIFY_USERNAME: string, SPOTIFY_CLIENT_ID: string, SPOTIFY_CLIENT_SECRET: string, SPOTIFY_REFRESH_TOKEN: string }>(c)
+    
 
-    const spotifyEnv = {
-      SPOTIFY_USERNAME,
-      SPOTIFY_CLIENT_ID,
-      SPOTIFY_CLIENT_SECRET,
-      SPOTIFY_REFRESH_TOKEN
-    }
-
-    const setlist_id = await createSetlist(queries, playlist_name, spotifyEnv)
+    const setlist_id = await createSetlist(queries, playlist_name, Env)
 
     console.log(JSON.stringify(queries, null, 2));
 

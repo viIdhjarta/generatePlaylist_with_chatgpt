@@ -4,6 +4,7 @@ import { useState } from "react";
 import { API_URL } from "./config";
 import "./globals.css";
 import SpotifyProfile from "./components/spotifyProfile";
+import { useUser } from "@clerk/nextjs";
 
 // プレイリスト結果の型定義
 interface Playlist {
@@ -23,6 +24,8 @@ export default function Home() {
   const [error, setError] = useState<string | null>(null);
   const [playlist, setPlaylist] = useState<Playlist | null>(null);
 
+  const { isSignedIn, user, isLoaded } = useUser();
+
   // サンプルプロンプト
   const samplePrompts = [
     "集中して作業したい時に聴きたい曲",
@@ -37,13 +40,13 @@ export default function Home() {
     e.preventDefault();
 
     if (!prompt.trim()) return;
-
+    const clerkUserId = user?.id || "";
     setLoading(true);
     setError(null);
 
     try {
       // Backendの/submitエンドポイントを呼び出す
-      const response = await fetch(`${API_URL}/submit`, {
+      const response = await fetch(`${API_URL}/submit?clerkUserId=${clerkUserId}`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

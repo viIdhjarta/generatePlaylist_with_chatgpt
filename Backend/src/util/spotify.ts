@@ -128,3 +128,33 @@ export async function spGetPlaylist(playlistId: string, spotifyEnv: SpotifyEnv) 
   });
   return await response.json();
 }
+
+export async function spGetSavedTracks(spotifyEnv: SpotifyEnv, userId: string) {
+  await refreshToken(spotifyEnv);
+  const accessToken = await spGetUserAccessToken(spotifyEnv, userId);
+  const response = await fetch(`https://api.spotify.com/v1/me/tracks`, {
+    headers: {
+      'Authorization': `Bearer ${accessToken}`
+    }
+  });
+  const savedTrackData = await response.json();
+  const trackNamewithArtist = savedTrackData.items.map((track: any) => track.track.name + " - " + track.track.artists[0].name);
+
+  return trackNamewithArtist;
+}
+
+export async function spGetUserAccessToken(spotifyEnv: SpotifyEnv, userId: string) {
+  const CLERK_API_KEY = spotifyEnv.CLERK_API_KEY;
+  const clerkResponse = await fetch(
+    `https://api.clerk.dev/v1/users/${userId}/oauth_access_tokens/spotify`,
+    {
+      headers: {
+        Authorization: `Bearer ${CLERK_API_KEY}`,
+        'Content-Type': 'application/json'
+      }
+    }
+  )
+  const tokenData = await clerkResponse.json() as Record<string, any>;
+  const spotifyAccessToken = tokenData[0].token;
+  return spotifyAccessToken;
+}
