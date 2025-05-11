@@ -45,8 +45,7 @@ export default function Home() {
     setError(null);
 
     try {
-      // Backendの/submitエンドポイントを呼び出す
-      const response = await fetch(`${API_URL}/submit?clerkUserId=${clerkUserId}`, {
+      const response = await fetch(`${API_URL}/playlist/generate?userId=${clerkUserId}`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -54,7 +53,9 @@ export default function Home() {
         body: JSON.stringify({ prompt }),
       });
 
-      const setlist_id = await response.json();
+      const setlist = await response.json();
+
+      const setlist_id = setlist.playlist.id
 
       if (!response.ok) {
         throw new Error(setlist_id.error || 'プレイリストの生成に失敗しました');
