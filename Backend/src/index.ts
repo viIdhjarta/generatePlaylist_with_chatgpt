@@ -7,11 +7,6 @@ import { OpenAI } from 'openai';
 import { createSetlist } from './util/spotify'
 
 const app = new Hono()
-
-app.use('*', cors())
-
-app.use('*', logger())
-
 // レスポンスの型定義
 interface SongResponse {
   playlist_name: string;
@@ -21,9 +16,61 @@ interface SongResponse {
   }[];
 }
 
+app.use('*', cors())
+
+app.use('*', logger())
+
+
 app.get('/', (c) => {
   return c.text(`Hello Hono!`)
 })
+
+// Spotify APIエンドポイント
+app.get('/api/spotify', async (c) => {
+  const userId = "user_2wvok3306il4XKyV56Xr82yNkc3"
+  const { CLERK_API_KEY } = env<{ CLERK_API_KEY: string }>(c)
+
+  try {
+    // Clerk APIを呼び出してSpotifyのアクセストークンを取得
+    const clerkResponse = await fetch(
+      `https://api.clerk.dev/v1/users/${userId}/oauth_access_tokens/spotify`,
+      {
+        headers: {
+          Authorization: `Bearer ${CLERK_API_KEY}`,
+          'Content-Type': 'application/json'
+        }
+      }
+    );
+
+    const tokenData = await clerkResponse.json() as Record<string, any>;
+    console.log("tokenDataaaa", JSON.stringify(tokenData, null, 2));
+
+    const spotifyAccessToken = tokenData[0].token;
+
+    console.log("spotifyAccessToken", spotifyAccessToken);
+
+    // Spotify APIを呼び出す
+    const spotifyResponse = await fetch('https://api.spotify.com/v1/me', {
+      headers: {
+        Authorization: `Bearer ${spotifyAccessToken}`,
+        'Content-Type': 'application/json'
+      }
+    });
+
+    if (!spotifyResponse.ok) {
+      const error = await spotifyResponse.json();
+      console.error('Spotify APIエラー:', error);
+      return c.json({ error: 'Spotifyデータの取得に失敗しました' }, 400);
+    }
+
+    const spotifyData = await spotifyResponse.json();
+
+    return c.json({ user: spotifyData });
+  } catch (error) {
+    console.error('サーバーエラー:', error);
+    return c.json({ error: '内部サーバーエラー' }, 500);
+  }
+});
 
 app.post('/submit', async (c) => {
   const { OPENAI_API_KEY } = env<{ OPENAI_API_KEY: string }>(c)
