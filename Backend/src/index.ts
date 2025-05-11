@@ -14,6 +14,7 @@ app.use('*', logger())
 
 // レスポンスの型定義
 interface SongResponse {
+  playlist_name: string;
   songs: {
     artist_name: string;
     song_name: string;
@@ -44,7 +45,7 @@ app.post('/submit', async (c) => {
       messages: [
         {
           role: "system",
-          content: "あなたはユーザ入力から適切な音楽をサジェストするプロンプトジェネレータです．あなたの最新知識を駆使して，ユーザの入力に応じた適切な音楽をサジェストしてください．出力はアーティスト名，曲名をJSON形式で出力してください．",
+          content: "あなたはユーザ入力から適切な音楽をサジェストするプロンプトジェネレータです．あなたの最新知識を駆使して，ユーザの入力に応じた適切な音楽をサジェストしてください．出力はアーティスト名，曲名をJSON形式で出力してください．また，プロンプトから適切なプレイリスト名を生成すること．",
         },
         {
           role: "user",
@@ -59,6 +60,7 @@ app.post('/submit', async (c) => {
           schema: {
             type: "object",
             properties: {
+              playlist_name: { type: "string" },
               songs: {
                 type: "array",
                 items: {
@@ -72,7 +74,7 @@ app.post('/submit', async (c) => {
                 },
               },
             },
-            required: ["songs"],
+            required: ["songs", "playlist_name"],
             additionalProperties: false,
           },
         },
@@ -86,6 +88,7 @@ app.post('/submit', async (c) => {
       const query = `${song.artist_name} - ${song.song_name}`
       return query
     })
+    const playlist_name = songData.playlist_name
 
     const { SPOTIFY_USERNAME, SPOTIFY_CLIENT_ID, SPOTIFY_CLIENT_SECRET, SPOTIFY_REFRESH_TOKEN } = env<{ SPOTIFY_USERNAME: string, SPOTIFY_CLIENT_ID: string, SPOTIFY_CLIENT_SECRET: string, SPOTIFY_REFRESH_TOKEN: string }>(c)
 
@@ -96,7 +99,7 @@ app.post('/submit', async (c) => {
       SPOTIFY_REFRESH_TOKEN
     }
 
-    const setlist_id = await createSetlist(queries, spotifyEnv)
+    const setlist_id = await createSetlist(queries, playlist_name, spotifyEnv)
 
     console.log(JSON.stringify(queries, null, 2));
 

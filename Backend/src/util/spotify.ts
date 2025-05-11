@@ -34,7 +34,7 @@ async function refreshToken(spotifyEnv: SpotifyEnv) {
   return accessToken = data.access_token;
 }
 
-export async function createSetlist(queries: string[], spotifyEnv: SpotifyEnv) {
+export async function createSetlist(queries: string[], playlist_name: string, spotifyEnv: SpotifyEnv) {
   try {
     await refreshToken(spotifyEnv);
     console.log(queries);
@@ -48,7 +48,7 @@ export async function createSetlist(queries: string[], spotifyEnv: SpotifyEnv) {
         'Content-Type': 'application/json'
       },
       body: JSON.stringify({
-        name: `AI Playlist`,
+        name: playlist_name,
         public: true
       })
     });
