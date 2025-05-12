@@ -64,9 +64,9 @@ export default function RootLayout({
                 <div className="bg-green-500 hover:bg-green-600 p-2 rounded-md text-white text-sm font-semibold">
                   <SignInButton />
                 </div>
-                <div className="bg-green-500 hover:bg-green-600 p-2 rounded-md text-white text-sm font-semibold">
+                {/* <div className="bg-green-500 hover:bg-green-600 p-2 rounded-md text-white text-sm font-semibold">
                   <SignUpButton />
-                </div>
+                </div> */}
               </div>
             </SignedOut>
             <SignedIn>
