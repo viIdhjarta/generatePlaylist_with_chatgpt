@@ -3,7 +3,6 @@
 import { useState } from "react";
 import { API_URL } from "./config";
 import "./globals.css";
-import SpotifyProfile from "./components/spotifyProfile";
 import { useUser } from "@clerk/nextjs";
 import { getUseFavoritesState } from "./components/FavoritesToggle";
 import FavoritesToggle from "./components/FavoritesToggle";
@@ -24,9 +23,8 @@ export default function Home() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [playlist, setPlaylist] = useState<Playlist | null>(null);
-  const [useFavorites, setUseFavorites] = useState(false);
 
-  const { isSignedIn, user, isLoaded } = useUser();
+  const { user } = useUser();
 
   // サンプルプロンプト
   const samplePrompts = [
@@ -170,7 +168,7 @@ export default function Home() {
 
         <div className="bg-gray-900 rounded-xl shadow-lg p-6 w-full border border-gray-800 mb-6">
           <div className="bg-gray-800 rounded-lg p-4 mb-6">
-            <p className="text-gray-300 italic">"{playlist?.prompt}"</p>
+            <p className="text-gray-300 italic">{playlist?.prompt}</p>
           </div>
 
           {playlist?.setlist_id && (

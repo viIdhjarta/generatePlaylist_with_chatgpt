@@ -35,8 +35,8 @@ export default function FavoritesToggle() {
   return (
     <SignedIn>
       <div className="flex justify-end items-center gap-2 mb-4">
-        <Switch checked={useFavorites} onCheckedChange={setUseFavorites} />
         <span className="text-gray-300 text-sm">いいねした曲を読み込む</span>
+        <Switch checked={useFavorites} onCheckedChange={setUseFavorites} />
       </div>
     </SignedIn>
   )

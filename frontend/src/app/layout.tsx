@@ -2,14 +2,12 @@ import type { Metadata } from 'next'
 import {
   ClerkProvider,
   SignInButton,
-  SignUpButton,
   SignedIn,
   SignedOut,
   UserButton,
 } from '@clerk/nextjs'
 import { Geist, Geist_Mono } from 'next/font/google'
 import './globals.css'
-import SpotifyProfile from './components/spotifyProfile'
 const geistSans = Geist({
   variable: '--font-geist-sans',
   subsets: ['latin'],
