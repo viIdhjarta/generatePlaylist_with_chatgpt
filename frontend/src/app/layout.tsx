@@ -50,7 +50,7 @@ export default function RootLayout({
                 <DialogHeader>
                   <DialogTitle className="text-xl">Spotifyアカウントを連携する</DialogTitle>
                   <DialogDescription className="text-md">
-                    ご自身のSpotifyアカウントを連携すると、Spotify上でいいねした曲も参考にしてプレイリストを作成することができます。
+                    Spotifyアカウントを連携すると、Spotify上でいいねした曲も参考にしてプレイリストを作成することができます。
                   </DialogDescription>
                 </DialogHeader>
               </DialogContent>
