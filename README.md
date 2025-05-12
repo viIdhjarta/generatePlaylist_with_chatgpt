@@ -3,7 +3,7 @@
 https://generate-playlist-with-chatgpt.vercel.app
 
 ## デモ
-https://github.com/user-attachments/assets/062d6625-8520-447e-bf7d-a75135bce790
+https://github.com/user-attachments/assets/062d6625-8520-447e-bf7d-a75135bce790<br>
 (お気に入り曲利用の有無で作成されるプレイリストが違うことが確認できます)
 ## 🎯 製作動機
 
