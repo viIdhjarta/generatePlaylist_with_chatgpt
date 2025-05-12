@@ -2,6 +2,7 @@ import type { Metadata } from 'next'
 import {
   ClerkProvider,
   SignInButton,
+  SignUpButton,
   SignedIn,
   SignedOut,
   UserButton,
@@ -52,12 +53,20 @@ export default function RootLayout({
                   <DialogDescription className="text-md">
                     Spotifyアカウントを連携すると、Spotify上でいいねした曲も参考にしてプレイリストを作成することができます。
                   </DialogDescription>
+                  <DialogDescription className="text-lg text-red-600">
+                    ※ 現在，Spotify APIが開発者モードであるため，Spotifyアカウントを連携することができません。
+                  </DialogDescription>
                 </DialogHeader>
               </DialogContent>
             </Dialog>
             <SignedOut>
-              <div className="bg-green-500 hover:bg-green-600 p-2 rounded-md text-white text-sm font-semibold">
-                <SignInButton />
+              <div className="flex gap-2">
+                <div className="bg-green-500 hover:bg-green-600 p-2 rounded-md text-white text-sm font-semibold">
+                  <SignInButton />
+                </div>
+                <div className="bg-green-500 hover:bg-green-600 p-2 rounded-md text-white text-sm font-semibold">
+                  <SignUpButton />
+                </div>
               </div>
             </SignedOut>
             <SignedIn>
