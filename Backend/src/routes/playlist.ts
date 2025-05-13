@@ -62,7 +62,7 @@ app.post('/generate', async (c) => {
     if (useFavorites && userId) {
       const spotifyToken = await getUserSpotifyToken(userId, { CLERK_API_KEY });
       const savedTracks = await getSavedTracks(spotifyToken, 50);   // todo: フロント側で曲数指定できるように
-      favoriteTracksPrompt = savedTracks.map(track => track.formatted);
+      favoriteTracksPrompt = savedTracks.map((track: any) => track.formatted);
     }
     
     // OpenAIでプレイリスト内容を生成

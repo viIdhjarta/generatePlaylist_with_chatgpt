@@ -33,3 +33,5 @@ lerna-debug.log*
 
 # misc
 .DS_Store
+# SpecStory explanation file
+.specstory/.what-is-this.md
